@@ -1,12 +1,10 @@
 import React from "react";
 import TodoApp from "./components/TodoApp";
-import { Toaster } from "react-hot-toast";
 
 const App: React.FC = () => {
   return (
-    <div>
+    <div className="min-h-screen flex items-center justify-center p-2">
       <TodoApp />
-      <Toaster position="top-right" />
     </div>
   );
 };

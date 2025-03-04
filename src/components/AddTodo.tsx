@@ -9,23 +9,23 @@ const AddTodo: React.FC<AddTodoProps> = ({ addTodo }) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!text.trim()) return; // Prevent adding empty tasks.
+    if (!text.trim()) return;
     addTodo(text.trim());
     setText("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex mb-4">
+    <form onSubmit={handleSubmit} className="flex items-center mb-4">
       <input
         type="text"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Add a new task"
-        className="p-2 border rounded-l-md"
+        placeholder="Add Task"
+        className="w-4/5 h-10 p-2 border-2 mr-4 border-black outline-none placeholder-black"
       />
       <button
         type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded-r-md"
+        className="w-1/5 h-10 bg-black text-white p-2 hover:bg-gray-700 flex items-center justify-center"
       >
         Add
       </button>

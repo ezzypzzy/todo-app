@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AddTodo from "./AddTodo";
 import TodoList from "./TodoList";
 import Filter from "./Filter";
@@ -13,19 +13,45 @@ export interface Todo {
 const TodoApp: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<"all" | "completed" | "pending">("all");
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
     const storedTodos = localStorage.getItem("todos");
-    if (storedTodos) {
-      setTodos(JSON.parse(storedTodos));
+    if (storedTodos !== null) {
+      try {
+        const parsedTodos: Todo[] = JSON.parse(storedTodos);
+        setTodos(parsedTodos);
+      } catch (e) {
+        console.error("Error parsing stored todos:", e);
+      }
     } else {
-      // TODO >>>> fetch initial todos from API (https://dummyjson.com/docs/todos#todos-a)
+      // Fetch initial todos from DummyJSON API if no todos in localStorage
+      fetch("https://dummyjson.com/todos")
+        .then((res) => res.json())
+        .then((data) => {
+          // The API returns an array of todos under the "todos" property.
+          const apiTodos = data.todos.map(
+            (todo: { id: number; todo: string; completed: boolean }) => ({
+              id: todo.id,
+              text: todo.todo,
+              completed: todo.completed,
+            })
+          );
+          setTodos(apiTodos);
+          console.log("Fetched todos from API:", apiTodos);
+        })
+        .catch((err) => console.error("Error fetching todos:", err));
     }
   }, []);
 
-  // Persist todos to local storage whenever they change.
+  // Persist todos to local storage whenever they change,
+  // but skip on the initial mount.
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    }
   }, [todos]);
 
   // Function to add a new todo.
@@ -55,7 +81,7 @@ const TodoApp: React.FC = () => {
     toast.success("Todo deleted successfully");
   };
 
-  // Filter todos based on current filter state
+  // Filter todos based on current filter state.
   const filteredTodos = todos.filter((todo) => {
     if (filter === "all") return true;
     if (filter === "completed") return todo.completed;
@@ -64,8 +90,11 @@ const TodoApp: React.FC = () => {
   });
 
   return (
-    <div className="container flex flex-col justify-center items-center mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-4">Todo App</h1>
+    <div className="w-full max-w-md mx-auto border-2 border-black p-6 bg-white">
+      <h1 className="text-center text-2xl font-bold mb-2 text-black">
+        To-Do List
+      </h1>
+      <hr className="border border-black mb-4" />
       <AddTodo addTodo={addTodo} />
       <Filter filter={filter} setFilter={setFilter} />
       <TodoList
