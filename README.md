@@ -1,54 +1,34 @@
-# React + TypeScript + Vite
+# Todo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sleek, responsive Todo App built with **React**, **TypeScript**, and **Vite**. Manage your tasks by adding, completing, deleting, and filtering them. All your tasks are persisted in localStorage, so your progress is always saved—even after a refresh!
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+First, install dependencies and run the development server:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install
+npm run dev
+# or
+yarn dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Features
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- **Add Tasks:** Easily add new tasks with a text input.
+- **Toggle Completion:** Mark tasks as complete/incomplete with a simple click.
+- **Delete Tasks:** Remove tasks with a smooth fade-out and shrink animation.
+- **Filter Tasks:** Filter tasks to show all, completed, or pending items.
+- **Persistent Data:** Tasks are saved in localStorage and even fetched from the DummyJSON API if no saved data exists.
+- **Responsive Design:** Clean, responsive UI built using Tailwind CSS.
+- **Notifications:** Toast notifications for task actions using react-hot-toast.
+
+## API Integration
+
+If no tasks are found in localStorage, the app fetches initial tasks from the [DummyJSON Todos API](https://dummyjson.com/docs/todos#todos-a).
+
+## Live Demo
+
+Check out the live app on [Vercel](https://todo-app-eta-navy-68.vercel.app/)
